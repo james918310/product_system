@@ -32,4 +32,16 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(Integer productId) {
         return productDao.getProductById(productId);
     }
+
+
+    @Override
+    public Response<Integer> getProductByBarcode(String barcode) {
+        Product product = productDao.getProductByBarcode(barcode);
+        if (product != null) {
+            return new Response<>("查詢解果為",product, product.getProductId());
+        }else {
+            return new Response<>("查無資料",null,null);
+        }
+
+    }
 }

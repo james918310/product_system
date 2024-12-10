@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
@@ -20,6 +17,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+//    新品功能
     @PostMapping("/api/products")
     public ResponseEntity<Response> createProduct(@RequestBody @Valid ProductInput productInput) {
             Response response = productService.createProduct(productInput);
@@ -27,16 +25,15 @@ public class ProductController {
          return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-//    查詢所有資料
-//    @GetMapping("/users/product")
-//    public ResponseEntity<Product> getProduct(){
-//        Product product= productService.getPeoduct();
-//        if (product == null) {
-//            return ResponseEntity.status(HttpStatus.OK).body(product);
-//
-//        }else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(product);
-//        }
-//    }
+//    透過條碼查詢資料
+    @GetMapping("/api/product/{barcode}")
+    public ResponseEntity<Response> getProduct(@PathVariable String barcode) {
+        Response response= productService.getProductByBarcode(barcode);
+        if (response.getProduct()==null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }else{
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
+    }
 
 }

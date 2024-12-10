@@ -8,4 +8,6 @@ public interface ProductService {
     Response<Integer> createProduct(ProductInput productInput);
 
     Product getProductById(Integer id);
+
+    Response<Integer> getProductByBarcode (String barcode);
 }
