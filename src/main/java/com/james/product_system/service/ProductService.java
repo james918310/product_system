@@ -10,4 +10,5 @@ public interface ProductService {
     Product getProductById(Integer id);
 
     Response<Integer> getProductByBarcode (String barcode);
+    void updateProduct(Integer productId, ProductInput productInput);
 }

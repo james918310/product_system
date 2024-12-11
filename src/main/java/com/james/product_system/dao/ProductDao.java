@@ -11,4 +11,8 @@ public interface ProductDao {
 
     Product getProductByBarcode(String barcode);
 
+    void updateProduct(Integer productId, ProductInput productInput);
+
+
+
 }

@@ -25,6 +25,24 @@ public class ProductController {
          return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+//    更新產品基本資料
+    @PutMapping("/api/products/{productId}")
+    public ResponseEntity<Response> updateProduct(@PathVariable Integer productId,
+                                                    @RequestBody ProductInput productInput){
+        Product product = productService.getProductById(productId);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+//        更新資料
+        productService.updateProduct(productId, productInput);
+        Product product1 = productService.getProductById(productId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response("更新成功",product1,product1.getProductId()));
+    }
+
+
+
 //    透過條碼查詢資料
     @GetMapping("/api/product/{barcode}")
     public ResponseEntity<Response> getProduct(@PathVariable String barcode) {

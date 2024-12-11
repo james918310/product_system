@@ -54,9 +54,9 @@ public class ProductDaoImpl implements ProductDao {
                 "FROM Products WHERE product_id = :productId";
         Map<String, Object> map = new HashMap<>();
         map.put("productId", productId);
+
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
         if (productList.size() > 0) {
-            System.out.println(productList.get(0));
             return productList.get(0);
         } else {
 
@@ -82,5 +82,22 @@ public class ProductDaoImpl implements ProductDao {
             return null;
         }
 
+    }
+
+//    更新資料產品資料
+    @Override
+    public  void updateProduct(Integer producyId, ProductInput productInput) {
+        String sql = "UPDATE Products SET name = :name, category = :category, barcode = :barcode," +
+                "  updated_at = :lastModifiedDate WHERE  product_id = :productId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("productId", producyId);
+        map.put("name", productInput.getName());
+        map.put("category", productInput.getCategory().toString());
+        map.put("barcode", productInput.getBarcode());
+        Date now = new Date();
+        map.put("lastModifiedDate", now);
+
+        namedParameterJdbcTemplate.update(sql, map);
     }
 }
